@@ -18,7 +18,7 @@ const SearchBar = ({ searchAction }: SearchBarProps) => {
         onInput={event => setCityName(event.currentTarget.value)}
         type="text"
         className="form-control"
-        placeholder="City name"
+        placeholder="City name (e.g. London)"
         aria-label="City name"
       />
       <div className="input-group-append">

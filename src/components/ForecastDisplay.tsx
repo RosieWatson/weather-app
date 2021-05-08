@@ -11,7 +11,7 @@ const ForecastDisplay = ({ forecast, title }:ForecastDisplayInterface) => {
 
   return ( 
     <div>
-      <h3 className='my-4'>{title}</h3>
+      <h4 className='my-4'>{title}</h4>
       <div className='d-flex justify-content-center flex-wrap'>
         {(forecast.length === 0) && (
           <div className="alert alert-info w-50" role="alert">
