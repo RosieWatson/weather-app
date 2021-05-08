@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { DateTime }  from 'luxon'
 
 import ErrorMessage from './components/ErrorMessage'
 import HistoryDisplay from './components/HistoryDisplay'
 import ForecastDisplay from './components/ForecastDisplay'
 import SearchBar from './components/SearchBar'
-
-import "./App.css"
 
 const App = () =>  {
   const [cityHistory, setHistory] = useState([])
@@ -32,21 +30,21 @@ const App = () =>  {
       const today = DateTime.local()
       const dayOneData = forecast.list.filter((data: any) => {
         const forecastDay = DateTime.fromSeconds(data.dt)
-        return forecastDay.startOf("day") <= today.startOf("day")
+        return forecastDay.startOf('day') <= today.startOf('day')
       })
       setDayOne(dayOneData)
       
       const tomorrow = today.plus({ days: 1})
       const dayTwoData = forecast.list.filter((data: any) => {
         const forecastDay = DateTime.fromSeconds(data.dt)
-        return (forecastDay.startOf("day") <= tomorrow.startOf("day")) && !(forecastDay.startOf("day") <= today.startOf("day"))
+        return (forecastDay.startOf('day') <= tomorrow.startOf('day')) && !(forecastDay.startOf('day') <= today.startOf('day'))
       })
       setDayTwo(dayTwoData)
       
       const dayAfterTomorrow = today.plus({ days: 2})
       const dayThreeData = forecast.list.filter((data: any) => {
         const forecastDay = DateTime.fromSeconds(data.dt)
-        return (forecastDay.startOf("day") <= dayAfterTomorrow.startOf("day")) && !(forecastDay.startOf("day") <= tomorrow.startOf("day"))
+        return (forecastDay.startOf('day') <= dayAfterTomorrow.startOf('day')) && !(forecastDay.startOf('day') <= tomorrow.startOf('day'))
       })
       setDayThree(dayThreeData)
 
@@ -56,22 +54,22 @@ const App = () =>  {
     } catch (error) {
       setErrored(true)
 
-      console.log("Error calling weather API: ", error)
+      console.log('Error calling weather API: ', error)
     }
   }
   
   return (
-    <div className="App container d-flex flex-wrap justify-content-center pb-5">
-      <div className="d-flex flex-column w-75">
+    <div className='container d-flex flex-wrap justify-content-center text-center pb-5'>
+      <div className='d-flex flex-column w-75'>
         <h1 className='m-4'>Weather App</h1>
         <SearchBar searchAction={getForecast} />
         { hasErrored
           ? <ErrorMessage />
           : <>
               {currentCity.length > 0 && <h3>The forecast for {currentCity}</h3>}
-              <ForecastDisplay forecast={dayOneForecast} title="Today" />
-              <ForecastDisplay forecast={dayTwoForecast} title="Tomorrow" />
-              <ForecastDisplay forecast={dayThreeForecast} title="The day after" />
+              <ForecastDisplay forecast={dayOneForecast} title='Today' />
+              <ForecastDisplay forecast={dayTwoForecast} title='Tomorrow' />
+              <ForecastDisplay forecast={dayThreeForecast} title='The day after' />
             </>
           }
       </div>
