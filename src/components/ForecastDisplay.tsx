@@ -11,13 +11,18 @@ const ForecastDisplay = ({ forecast, title }:ForecastDisplayInterface) => {
 
   return ( 
     <div>
-      <h3>{title}</h3>
-      <div className='d-flex justify-content-center'>
+      <h3 className='my-4'>{title}</h3>
+      <div className='d-flex justify-content-center flex-wrap'>
+        {(forecast.length === 0) && (
+          <div className="alert alert-info w-50" role="alert">
+            Sorry, there is no data for today!
+          </div>
+        )}
         {forecast.map((dataPoint) => {
           return (
-            <div className="card bg-light mb-3" key={dataPoint.dt}>
+            <div className="card bg-light mb-3 mx-2" key={dataPoint.dt}>
               <div className="card-body text-dark">
-                <p className="card-text">{Math.round(dataPoint.main.temp)}c</p>
+                <h5 className="card-text">{Math.round(dataPoint.main.temp)}c</h5>
               </div>
               <div className="card-footer bg-transparent bg-light">{DateTime.fromSeconds(dataPoint.dt).toLocaleString(DateTime.TIME_SIMPLE)}</div>
             </div>

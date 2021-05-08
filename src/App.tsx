@@ -11,11 +11,12 @@ const App = () =>  {
   const [dayTwoForecast, setDayTwo] = useState(null)
   const [dayThreeForecast, setDayThree] = useState(null)
 
-  const getForecast = async (cityName: string) => {
+  const getForecast = async (cityName: string | null) => {
+    const searchCity = cityName || 'London'
     try {
       // Would be better to have API key not stored directly in the fetch request
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${cityName},UK&mode=json&units=metric&appid=fd85fabcca62ac65613b18280c85fa56`
+        `https://api.openweathermap.org/data/2.5/forecast?q=${searchCity},UK&mode=json&units=metric&appid=fd85fabcca62ac65613b18280c85fa56`
       )
       const forecast = await response.json()
 
@@ -47,7 +48,7 @@ const App = () =>  {
   }
   
   return (
-    <div className="App container">
+    <div className="App container mx-5 px-5 pb-5 d-flex flex-column">
       <h1 className='m-4'>Weather App</h1>
       <SearchBar searchAction={getForecast} />
       <ForecastDisplay forecast={dayOneForecast} title="Today" />

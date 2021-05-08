@@ -12,7 +12,7 @@ const SearchBar = ({ searchAction }: SearchBarProps) => {
   }
  
   return (
-    <div className="input-group mb-3 p-4">
+    <div className="input-group p-4 w-50 align-self-center">
       <input
         value={cityName}
         onInput={event => setCityName(event.currentTarget.value)}
