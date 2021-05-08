@@ -18,3 +18,9 @@ docker run -p 3000:3000 -it rosiewatson/weather-app
 ```
 npm start
 ```
+
+## Extra thoughts
+
+If I was to spend more time on this project some extra things I would think about:
+- Using Redux and persistent local storage to keep the history of the users search even after refresh or leaving the site. This could also be used to stored some of the previous searches to remove the need to re-request the data.
+- Use more of the data points.
