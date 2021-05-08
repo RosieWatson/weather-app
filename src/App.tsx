@@ -1,17 +1,23 @@
 import React, { useState } from 'react'
 import { DateTime }  from 'luxon'
 
+import HistoryDisplay from './components/HistoryDisplay'
 import ForecastDisplay from './components/ForecastDisplay'
 import SearchBar from './components/SearchBar'
 
 import "./App.css"
 
 const App = () =>  {
+  const [cityHistory, setHistory] = useState([])
+
   const [dayOneForecast, setDayOne] = useState(null)
   const [dayTwoForecast, setDayTwo] = useState(null)
   const [dayThreeForecast, setDayThree] = useState(null)
 
-  const getForecast = async (cityName: string | null) => {
+  const getForecast = async (cityName: string | null, newSearch: boolean) => {
+    // @ts-ignore
+    if (newSearch) setHistory([cityName, ...cityHistory])
+
     const searchCity = cityName || 'London'
     try {
       // Would be better to have API key not stored directly in the fetch request
@@ -48,12 +54,15 @@ const App = () =>  {
   }
   
   return (
-    <div className="App container mx-5 px-5 pb-5 d-flex flex-column">
-      <h1 className='m-4'>Weather App</h1>
-      <SearchBar searchAction={getForecast} />
-      <ForecastDisplay forecast={dayOneForecast} title="Today" />
-      <ForecastDisplay forecast={dayTwoForecast} title="Tomorrow" />
-      <ForecastDisplay forecast={dayThreeForecast} title="The day after" />
+    <div className="App container d-flex flex-wrap justify-content-sm-center pb-5">
+      <div className="d-flex flex-column w-75">
+        <h1 className='m-4'>Weather App</h1>
+        <SearchBar searchAction={getForecast} />
+        <ForecastDisplay forecast={dayOneForecast} title="Today" />
+        <ForecastDisplay forecast={dayTwoForecast} title="Tomorrow" />
+        <ForecastDisplay forecast={dayThreeForecast} title="The day after" />
+      </div>
+      <HistoryDisplay history={cityHistory} searchAction={getForecast} />
     </div>
   )
 }

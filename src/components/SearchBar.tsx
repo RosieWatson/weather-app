@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 
 interface SearchBarProps {
-  searchAction: (param: string) => void
+  searchAction: (param: string, isNewSearch: boolean) => void
 }
 
 const SearchBar = ({ searchAction }: SearchBarProps) => {
   const [cityName, setCityName] = useState('')
 
   const onSearch = () => {
-    searchAction(cityName)
+    searchAction(cityName, true)
   }
  
   return (
-    <div className="input-group p-4 w-50 align-self-center">
+    <div className="input-group px-5 my-3 mx-5 align-self-center">
       <input
         value={cityName}
         onInput={event => setCityName(event.currentTarget.value)}
@@ -24,7 +24,7 @@ const SearchBar = ({ searchAction }: SearchBarProps) => {
       <div className="input-group-append">
         <button
           onClick={onSearch}
-          className="btn btn-outline-secondary"
+          className="btn btn-secondary"
           type="button"
         >
           Search
