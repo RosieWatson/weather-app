@@ -1,5 +1,5 @@
 interface HistoryDisplayProps {
-  history: Array<string> 
+  history: Array<string>
   searchAction: (param: string, isNewSearch: boolean) => void
 }
 
