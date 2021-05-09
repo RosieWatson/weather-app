@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { DateTime }  from 'luxon'
+
+import { getFullForecast, getSingleDayForecast } from './utils/forecast'
 
 import ErrorMessage from './components/ErrorMessage'
 import HistoryDisplay from './components/HistoryDisplay'
@@ -7,12 +8,12 @@ import ForecastDisplay from './components/ForecastDisplay'
 import SearchBar from './components/SearchBar'
 
 const App = () =>  {
-  const [cityHistory, setHistory] = useState([])
+  const [cityHistory, setHistory] = useState<Array<any>>([])
   const [currentCity, setCurrentCity] = useState('')
 
-  const [dayOneForecast, setDayOne] = useState(null)
-  const [dayTwoForecast, setDayTwo] = useState(null)
-  const [dayThreeForecast, setDayThree] = useState(null)
+  const [dayOneForecast, setDayOne] = useState<Array<any> | null>(null)
+  const [dayTwoForecast, setDayTwo] = useState<Array<any> | null>(null)
+  const [dayThreeForecast, setDayThree] = useState<Array<any> | null>(null)
 
   const [hasErrored, setErrored] = useState(false)
 
@@ -21,35 +22,18 @@ const App = () =>  {
     setCurrentCity(searchCity)
 
     try {
-      // Would be better to have API key not stored directly in the fetch request
-      const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${searchCity},UK&mode=json&units=metric&appid=fd85fabcca62ac65613b18280c85fa56`
-      )
-      const forecast = await response.json()
+      const forecast = await getFullForecast(searchCity)
 
-      const today = DateTime.local()
-      const dayOneData = forecast.list.filter((data: any) => {
-        const forecastDay = DateTime.fromSeconds(data.dt)
-        return forecastDay.startOf('day') <= today.startOf('day')
-      })
+      const dayOneData = getSingleDayForecast(forecast, 0)
       setDayOne(dayOneData)
-      
-      const tomorrow = today.plus({ days: 1})
-      const dayTwoData = forecast.list.filter((data: any) => {
-        const forecastDay = DateTime.fromSeconds(data.dt)
-        return (forecastDay.startOf('day') <= tomorrow.startOf('day')) && !(forecastDay.startOf('day') <= today.startOf('day'))
-      })
+
+      const dayTwoData = getSingleDayForecast(forecast, 1)
       setDayTwo(dayTwoData)
-      
-      const dayAfterTomorrow = today.plus({ days: 2})
-      const dayThreeData = forecast.list.filter((data: any) => {
-        const forecastDay = DateTime.fromSeconds(data.dt)
-        return (forecastDay.startOf('day') <= dayAfterTomorrow.startOf('day')) && !(forecastDay.startOf('day') <= tomorrow.startOf('day'))
-      })
+
+      const dayThreeData = getSingleDayForecast(forecast, 2)
       setDayThree(dayThreeData)
 
       setErrored(false)
-      // @ts-ignore
       if (newSearch && cityName) setHistory([cityName, ...cityHistory])
     } catch (error) {
       setErrored(true)
