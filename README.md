@@ -1,6 +1,6 @@
 # Weather App
 
-A react app that serves a 3-day forecast using an open API (note API once chosen)
+A react app that serves a 3-day forecast using an open [weather API](https://openweathermap.org/)
 
 ## How to run
 
@@ -23,4 +23,5 @@ npm start
 
 If I was to spend more time on this project some extra things I would think about:
 - Using Redux and persistent local storage to keep the history of the users search even after refresh or leaving the site. This could also be used to stored some of the previous searches to remove the need to re-request the data.
+- Add in a fuzzy search. One way of doing this would be using Google's API to fetch the list of cities as the user types to make suggestions.
 - Use more of the data points.
